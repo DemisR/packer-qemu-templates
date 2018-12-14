@@ -1,19 +1,10 @@
 PACKAGES="
-acpid
-apt-file
-bind9-host
-bzip2
 curl
-dnsutils
-emacs24-nox
 htop
-nmon
 ntp
 rsync
-slurm
 sudo
-tcpdump
-unzip
-vim-nox
+vim
+cloud-init
 "
-apt -y install --without-recommends $PACKAGES
+apt -y install $PACKAGES

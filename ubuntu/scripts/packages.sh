@@ -1,12 +1,7 @@
 DEV_PACKAGES="
-build-essential
 curl
-emacs24-nox
 htop
-nmon
-slurm
-tcpdump
-unzip
+cloud-init
 "
 
 ESSENTIAL_PACKAGES="
