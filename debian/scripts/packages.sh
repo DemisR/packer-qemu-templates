@@ -16,4 +16,4 @@ tcpdump
 unzip
 vim-nox
 "
-aptitude -y install --without-recommends $PACKAGES
+apt -y install --without-recommends $PACKAGES
