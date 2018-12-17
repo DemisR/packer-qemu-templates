@@ -1,0 +1,27 @@
+#cloud-config
+
+timezone: Europe/Paris
+package_update: true
+package_upgrade: true
+packages:
+  - curl
+  - openssh-server
+  - htop
+
+groups:
+  - localdmins
+
+users:
+  - default
+  - name: deri
+    gecos: Administrator
+    primary-group: deri
+    groups: localdmins
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJqZ50OjSxc55yFKcUgV0TulNoonB07NbhqnS5t/pWdPBetfSUqFO7jvFshZtZgcoTi7T6ghuWZiicvPh98kQCC7nneQenW1CS31ekp0+rQmGK2FKLqwxet1BhdPfdXJjA2aLIoGSFncwvTW84QUapw4A1BifjeX5hG08b4ESdQGdWIrRw3xGodsnRJyV1Ec3vzRM4aH9BbPbrwVnprWjFxHydIMwMwQgvaqH8ebzAD+nASl5j8XXSnw9rA7WO4DIrQZNz1Yeh9oEx8/KDSwU8CYpN7AymAfWvLrEXFj5/sCAYm/d8hgNjEQ/5CEMjdv01vbKM4MuGfxUf1iDeTBLr demis@exxoss.com
+
+runcmd:
+  - sed -i 's|[#]*PasswordAuthentication no|PasswordAuthentication yes|g' /etc/ssh/sshd_config
+  - service ssh restart
