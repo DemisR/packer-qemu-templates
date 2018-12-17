@@ -9,11 +9,15 @@
   "builders": [
       {
           "name": "debian96",
+          "output_directory": "output_image",
+          "vm_name": "debian96-small.img",
 
           "type": "qemu",
           "format": "qcow2",
           "accelerator": "kvm",
           "disk_size": "{{ user `disk_size` }}",
+          "net_device": "virtio-net",
+          "disk_interface": "virtio",
 
           "iso_url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.6.0-amd64-netinst.iso",
           "iso_checksum": "c51d84019c3637ae9d12aa6658ea8c613860c776bd84c6a71eaaf765a0dd60fe",
@@ -27,7 +31,7 @@
 
           "ssh_wait_timeout": "60m",
 
-          "boot_wait": "2s",
+          "boot_wait": "5s",
           "boot_command": [
                  "<esc><wait><wait>",
                  "install ",
