@@ -19,5 +19,7 @@ cd
 git clone https://github.com/DemisR/packer-qemu-templates.git
 cd packer-qemu-templates/debian/
 export PACKER_LOG=1 && export PACKER_LOG_PATH="packer.log" && packer build debian96.json
+cp output_image/debian96-small.img /var/www/vm-images
 
-
+# On Nutanig interface
+create new iage based on url http://10.22.120.249/debian96-small.img
