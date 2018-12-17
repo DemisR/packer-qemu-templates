@@ -33,20 +33,18 @@
 
           "boot_wait": "5s",
           "boot_command": [
-                 "<esc><wait><wait>",
-                 "install ",
-
-                 "auto=true ",
-                 "priority=critical ",
-                 "interface=auto ",
-                 "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-
-                 "passwd/user-fullname={{ user `user` }} ",
-                 "passwd/user-password={{ user `password` }} ",
-                 "passwd/user-password-again={{ user `password` }} ",
-                 "passwd/username={{ user `user` }} ",
-
-                 "<enter>"
+            "<esc><wait><wait>",
+            "install auto <wait>",
+            "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+            "debian-installer=en_US locale=en_AU.UTF-8 keymap=us <wait>",
+            "netcfg/get_hostname={{ .Name }} <wait>",
+            "netcfg/get_domain={{ user `domain`}} <wait>",
+            "fb=false debconf/frontend=noninteractive <wait>",
+            "passwd/user-fullname={{user `user`}} <wait>",
+            "passwd/user-password={{user `password`}} <wait>",
+            "passwd/user-password-again={{user `password`}} <wait>",
+            "passwd/username={{user `user`}} <wait>",
+            "<enter><wait>"
           ]
       }
   ],
