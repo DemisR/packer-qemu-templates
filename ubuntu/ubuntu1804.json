@@ -64,7 +64,8 @@
       "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "5s",
       "vm_name": "{{ user `vm_name` }}",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
