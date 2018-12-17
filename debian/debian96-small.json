@@ -2,7 +2,7 @@
   "variables": {
       "user": "admindebian",
       "password": "admindebian",
-      "disk_size": "20000",
+      "disk_size": "10000",
       "domain": ""
   },
 
