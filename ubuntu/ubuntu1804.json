@@ -28,12 +28,15 @@
 
   "builders": [
     {
+      "output_directory": "output_image",
+      "vm_name": "{{ user `vm_name` }}",
       "type": "qemu",
       "format": "qcow2",
       "accelerator": "kvm",
       "disk_size": "{{ user `disk_size` }}",
       "net_device": "virtio-net",
       "disk_interface": "virtio",
+      "boot_wait": "10s",
       "boot_command": [
         "{{ user `boot_command_prefix` }}",
         "/install/vmlinuz noapic ",
@@ -60,13 +63,10 @@
       "iso_urls": [
         "{{ user `iso_url` }}"
       ],
-      "output_directory": "output-{{ user `vm_name` }}",
       "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "60m",
-      "boot_wait": "5s",
-      "vm_name": "{{ user `vm_name` }}",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
         [ "-smp", "cpus={{ user `cpus`}}"]
