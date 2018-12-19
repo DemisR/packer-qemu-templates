@@ -23,3 +23,9 @@ cp output_image/debian96-small.img /var/www/vm-images
 
 # On Nutanig interface
 create new iage based on url http://10.22.120.249/debian96-small.img
+
+
+#TODO:
+- options discks for performance
+- options systctl
+- install NGT
