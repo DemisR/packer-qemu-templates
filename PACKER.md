@@ -13,7 +13,7 @@ sudo ln -s /usr/local/packer/packer
 source ~/.profile
 
 
-# Create ubuntu image
+# Create debian image
 
 cd
 git clone https://github.com/DemisR/packer-qemu-templates.git

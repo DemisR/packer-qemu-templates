@@ -1,22 +1,13 @@
 ## Introduction
 
-The packer-qemu-templates provides Packer templates for unattended
+The repository provides Packer templates for unattended
 building of relevant virtual machine images in the qcow2 format for
-use with KVM.
+use with KVM and Nutanix AHV.
 
-In addition, all templates for use with Vagrant, through
-[vagrant-libvirt](https://github.com/pradels/vagrant-libvirt), are
-configured to let Packer create a Vagrant box through the libvirt
-post-processor.
-
-More info:
-http://blog.aarhusworks.com/unattended-installation-of-vm-images-with-packer/
 
 ## Status
 
-Currently the project includes templates for Ubuntu, CentOS, Debian
-and Windows. In other words, the OSes of the VMs I and the other
-contributors use on a day-to-day basis.
+Currently the project includes templates Debian.Windows, CentOS and Ubuntu are in test phase.
 
 Feel free to contribute more:-)
 
@@ -28,34 +19,60 @@ Go into the relevant template directory and run packer build on the
 relevant json file.
 
 ```bash
-$ cd windows
-$ packer build -var-file windows.json windows-2012-R2-standard-vagrant.json
+$ cd debian
+$ export PACKER_LOG=1 && export PACKER_LOG_PATH="packer.log" && packer build debian96.json
 ```
+After build the image you can share it with an http server.
 
-Templates names that ends with vagrant automatically creates a vagrant
-box.
+## How to stage the builder
+For build images for kvm you need a Qemu srver and Packer.
 
-Add the box to Vagrant
-
+Here the procedure for setup an ubuntu 18.04 host for build images with packer.
 ```bash
-$ vagrant box add box/windows-2012-R2-standard.box --name windows-2012-R2-standard
+apt-get update
+apt-get install qemu-kvm unzip git
+sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+kvm-ok
+wget https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip
+unzip packer_1.3.3_linux_amd64.zip
+mkdir /usr/local/packer
+mv packer /usr/local/packer
+cd /usr/bin
+sudo ln -s /usr/local/packer/packer
+source ~/.profile
 ```
 
-Init vagrantfile
+Clone this repository
 ```
-$ mkdir project && cd $_
-$ vagrant init windows-2012-R2-standard
-```
-
-Start machine
-```
-$ vagrant up
+git clone https://github.com/DemisR/packer-qemu-templates.git
+cd packer-qemu-templates/debian/
 ```
 
-Get IP of machine
+Share images with an Http server
+```bash
+apt install nginx
+mkdir /var/www/vm-images/
 ```
-$ vagrant ssh-config
+
+Edit file `/etc/nginx/sites-enabled/default`
 ```
+server {
+  listen *:80;
+
+  root /var/www/vm-images;
+  autoindex on;
+}
+```
+
+## Add images on Nutanix AHV
+On Prism Central , go to Images services menu and Add Image.
+Select URL source and type th path to your image ( ex : http://packer.mycompany.be/debian96-small.img ), click on Upload file .
+Selecct Image Type : Disk , add the description and Save.
+
+The conversion process take some minutes.
+
+## Use images with nutanix
+When you create a new Vm , remove the CD disk volume and add a new disk with the *operation* `clone from Image Service` and select the correct Image and add the netvork interface.
 
 ## Acknowledgements
 
