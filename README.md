@@ -66,8 +66,13 @@ server {
 
 ## Add images on Nutanix AHV
 On Prism Central , go to Images services menu and Add Image.
+
 Select URL source and type th path to your image ( ex : http://packer.mycompany.be/debian96-small.img ), click on Upload file .
-Selecct Image Type : Disk , add the description and Save.
+
+Select Image Type : Disk , add the description and Save.
+
+You can use a cloud-init file for add packages, users etc. and customize your install. ( example file `cloud-init.example`)
+
 
 The conversion process take some minutes.
 
