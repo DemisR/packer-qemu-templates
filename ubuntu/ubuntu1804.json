@@ -1,0 +1,102 @@
+{
+  "_comment": "Build with `packer build ubuntu1804.json`",
+  "variables": {
+    "cleanup_pause": "",
+    "cpus": "1",
+    "custom_script": ".",
+    "desktop": "false",
+    "disk_size": "10000",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_dev_packages": "false",
+    "iso_checksum": "cf03db08fab3f48c5a40ad23afa6ca0c6c969d1f",
+    "iso_checksum_type": "sha1",
+    "iso_name": "ubuntu-18.04.1-live-server-amd64.iso",
+    "iso_url": "http://releases.ubuntu.com/18.04/ubuntu-18.04.1-live-server-amd64.iso",
+    "memory": "1024",
+    "hostname": "ubuntu",
+    "ssh_fullname": "ubuntu",
+    "ssh_password": "ubuntu",
+    "ssh_username": "ubuntu",
+    "update": "true",
+    "vm_name": "ubuntu1804",
+    "domain": "",
+    "country": "BE",
+    "keyboard": "us",
+    "language": "en",
+    "locale": "en_US.UTF-8"
+  },
+
+  "builders": [
+    {
+      "output_directory": "output_image",
+      "vm_name": "{{ user `vm_name` }}",
+      "type": "qemu",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "disk_size": "{{ user `disk_size` }}",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " grub-installer/bootdev=/dev/vda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "headless": "true",
+      "http_directory": "http",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_urls": [
+        "{{ user `iso_url` }}"
+      ],
+      "shutdown_command": "echo '{{ user `ssh_password` }}'|sudo -S shutdown -P now",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_wait_timeout": "60m",
+      "qemuargs": [
+        [ "-m", "{{ user `memory` }}" ],
+        [ "-smp", "cpus={{ user `cpus`}}"]
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "environment_vars": [
+        "UPDATE={{user `update`}}",
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}"
+      ],
+      "execute_command": "echo '{{ user `ssh_password` }}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "scripts/sshd.sh",
+        "scripts/packages.sh",
+        "scripts/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}
