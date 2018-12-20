@@ -82,8 +82,8 @@
           <WillShowUI>OnError</WillShowUI>
         </ProductKey>
         <AcceptEula>true</AcceptEula>
-        <FullName>Vagrant</FullName>
-        <Organization>Vagrant</Organization>
+        <FullName>adminwindows</FullName>
+        <Organization>adminwindows</Organization>
       </UserData>
     </component>
   </settings>
@@ -118,11 +118,11 @@
            which runs first logon commands -->
       <AutoLogon>
         <Password>
-          <Value>vagrant</Value>
+          <Value>adminwindows</Value>
           <PlainText>true</PlainText>
         </Password>
         <Enabled>true</Enabled>
-        <Username>vagrant</Username>
+        <Username>adminwindows</Username>
       </AutoLogon>
 
       <FirstLogonCommands>
