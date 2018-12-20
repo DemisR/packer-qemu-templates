@@ -5,7 +5,6 @@
       "type": "qemu",
       "accelerator": "kvm",
       "disk_size": "{{ user `disk_size` }}",
-      "disk_interface": "virtio",
       "format": "qcow2",
 
       "floppy_files": "{{ user `floppy_files_list` }}",
